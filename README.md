@@ -1,6 +1,6 @@
 ### DigitalOcean K8s Challenge
 
-## Creating a GitOps cluster managed via ArgoCD
+## Creating a declarative GitOps cluster managed via ArgoCD
 
 ## Steps
 
