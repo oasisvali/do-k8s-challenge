@@ -94,9 +94,7 @@
         
 ### Setting up the Applications in the Git Repository
 
-* minio
-* nginx
-* cert-manager
+For this demo, we will be deploying an ArgoCD Application using the [App-of-Apps](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/) pattern. The following sub-apps will be deployed under the root Application
 
 * Deploy Helm charts in the declarative GitOps way
 * Using App of Apps pattern to deploy multiple apps
