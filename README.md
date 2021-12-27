@@ -94,14 +94,15 @@
         
 ### Setting up the Applications in the Git Repository
 
-For this demo, we will be deploying an ArgoCD Application using the [App-of-Apps](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/) pattern. The following sub-apps will be deployed under the root Application
+For this demo, we will be deploying [cert-manager](https://cert-manager.io/docs/), [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) and [minio]() as 3 ArgoCD 'Applications'. We will use ArgoCD's native Helm chart support to define these applications via their helm charts. Additionally, we will also create supporting resources like namespaces, ingress-class and cluster-issuer via raw YAML definitions.
 
-* Deploy Helm charts in the declarative GitOps way
-* Using App of Apps pattern to deploy multiple apps
+The required definitions for all the components are located in the current repository. We will configure ArgoCD via its UI to begin syncing with the current repository.
+
+1) 
 
 ### 
   
-### Test Syncing
+### Test Deployment and Syncing
 
 * Automatic sync on repository update
   
@@ -109,9 +110,10 @@ For this demo, we will be deploying an ArgoCD Application using the [App-of-Apps
 * Integrate ArgoCD-Notifications for alerting ArgoCD events
 * Deploying Secrets declaratively using secrets management (e.g. with Bitnami Sealed Secrets)
 
+* Deploy multiple ArgoCD Applications using the [App-of-Apps](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/) pattern
 * Install ArgoCD in High-Availability mode
 * Configure ArgoCD via ArgoCD CLI
 * Deploy Apps to external clusters
-* Using local users/SSO integration rather than `admin` user
+* Use local users/SSO integration rather than `admin` user
 * Configure ArgoCD to listen for Git webhook events rather than polling repository
-* Authenticate private Git repository using ssh key
+* Authenticate private Git repositories using ssh key/https token

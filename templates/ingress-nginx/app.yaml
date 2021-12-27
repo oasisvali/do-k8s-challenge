@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx
+  namespace: ingress-nginx
+spec:
+  project: default
+  source:
+    chart: bitnami/nginx-ingress-controller
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 8.0.7
+    helm:
+      releaseName: ingress-nginx
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ingress-nginx
+
