@@ -9,8 +9,7 @@ spec:
     chart: bitnami/nginx-ingress-controller
     repoURL: https://charts.bitnami.com/bitnami
     targetRevision: 8.0.7
-    helm:
-      releaseName: ingress-nginx
+
   destination:
     server: https://kubernetes.default.svc
     namespace: ingress-nginx
