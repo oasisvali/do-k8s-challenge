@@ -6,6 +6,7 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/proxy-body-size: 10000m
   name: minio-ingress
+  namespace: minio
 spec:
   tls:
     - hosts:
