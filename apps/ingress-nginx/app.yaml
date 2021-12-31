@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    chart: bitnami/nginx-ingress-controller
+    chart: nginx-ingress-controller
     repoURL: https://charts.bitnami.com/bitnami
     targetRevision: 8.0.7
 
