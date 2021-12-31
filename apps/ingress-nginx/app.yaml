@@ -13,32 +13,32 @@ spec:
     helm:
       values: |
         
-        watchIngressWithoutClass: false
-        
-        ingressClass: nginx
+watchIngressWithoutClass: false
 
-        # This argument is required for the controller to register the 'nginx' ingress class (workaround for what might be a bug)
-        extraArgs:
-          ingress-class-by-name: true
+ingressClass: nginx
 
-        replicaCount: 1
+# This argument is required for the controller to register the 'nginx' ingress class (workaround for what might be a bug)
+extraArgs:
+  ingress-class-by-name: true
 
-        defaultBackend:
-          enabled: true
-          replicaCount: 1
+replicaCount: 1
 
-        service:
-          type: LoadBalancer
-          externalTrafficPolicy: Local # enables client IP passthrough in 'X-Forwarder-For' header
+defaultBackend:
+  enabled: true
+  replicaCount: 1
 
-        serviceAccount:
-          create: true
+service:
+  type: LoadBalancer
+  externalTrafficPolicy: Local # enables client IP passthrough in 'X-Forwarder-For' header
 
-        rbac:
-          create: true
+serviceAccount:
+  create: true
 
-        metrics:
-          enabled: false
+rbac:
+  create: true
+
+metrics:
+  enabled: false
 
   destination:
     server: https://kubernetes.default.svc
