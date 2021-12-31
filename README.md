@@ -94,14 +94,14 @@
         
 ### Setting up the Applications in the Git Repository
 
-For this demo, we will be deploying multiple ArgoCD Applications using the [App-of-Apps](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/) pattern. The following sub-apps will be deployed:
+For this demo, we will be deploying a single ArgoCD 'root' Application. The 'root' application will contain the following ArgoCD 'Application' resources:
 
-1) [cert-manager](https://cert-manager.io/docs/) - via Helm chart
-2) [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) - via Helm chart
-3) [minio]() - via Helm chart
-4) [sealed-secrets] - via raw YAML manifest
+1) [cert-manager](https://cert-manager.io/docs/) Application - referencing helm chart
+2) [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) Application - referencing helm chart
+3) [minio]() Application - referencing helm chart 
+4) [sealed-secrets] Deployment - via raw YAML manifest
 
-Additionally, we will also create supporting resources like ingress-class and cluster-issuer via raw YAML definitions.
+Additionally, we will also create supporting resources like ingress-class, cluster-issuer and namespaces via raw YAML definitions.
 
 The required definitions for all the components are located in the current repository. We will configure ArgoCD via its UI to begin syncing with the current repository's `templates/` path.
 
@@ -117,6 +117,7 @@ The required definitions for all the components are located in the current repos
 * Integrate ArgoCD-Notifications for alerting ArgoCD events
 * Deploying Secrets declaratively using secrets management (e.g. with Bitnami Sealed Secrets)
 
+* Deploy multiple ArgoCD Applications using the [App-of-Apps](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/) pattern
 * Install ArgoCD in High-Availability mode
 * Configure ArgoCD via ArgoCD CLI
 * Deploy Apps to external clusters
