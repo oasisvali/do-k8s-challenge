@@ -91,19 +91,38 @@
   ```bash
   kubectl delete secret argocd-initial-admin-secret -n argocd
   ```
-        
+
+### Installing sealed-secrets (Optional)
+
+We will use [sealed-secrets](https://github.com/bitnami-labs/sealed-secrets) to declaratively store the secrets in our GitOps repository. To use a `SealedSecret` custom resource, we need to install `kubeseal` to generate the encrypted secret and install the `sealed-secrets` controller into the cluster
+
+```bash
+curl -L https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.17.1/kubeseal-0.17.1-linux-amd64.tar.gz --output kubeseal.tar.gz
+tar -xf kubeseal.tar.gz
+chmod +x kubeseal
+
+kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.17.1/controller.yaml
+# verify
+kubectl get pods -n kube-system
+
+# generate secret
+echo -n bar | kubectl create secret generic minio-secret -n minio --dry-run=client --from-literal access-key=`pwgen -csn 20 1` --from-literal secret-key=`pwgen -csn 20 1` -o json >minio-secret.json
+./kubeseal <minio-secret.json >minio-sealed-secret.json
+# minio-sealed-secret.json is added to repository
+```
+
 ### Setting up the Applications in the Git Repository
 
-* [ArgoCD App-of-Apps Architecture Reference]()
+* [ArgoCD App-of-Apps Architecture Reference](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/)
 
 For this demo, we will be deploying multiple ArgoCD `Application` resources via their Helm chart definitions. To define all the Applications under a single git repository, we will define and deploy a root ArgoCD `Application` resource. The root application will then automatically create the sub-applications as well as any standalone Kubernetes manifests in the same Git repository in the **App-of-Apps** pattern. The following ArgoCD `Application` resources will be created:
 
 1) `root` Application - the cluster bootstrapping Application
 1) [cert-manager](https://cert-manager.io/docs/) Application - deploys a helm chart
 2) [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) Application - deploys a helm chart
-3) [minio]() Application - deploys a helm chart
+3) [minio](https://min.io/) Application - deploys a helm chart
 
-Additionally, we will also create supporting resources like ingress-class, cluster-issuer, namespaces, deployments (e.g. for [sealed-secrets]()) via raw YAML definitions.
+Additionally, we will also create supporting resources like ingress-class, cluster-issuer, ingress, sealed-secret via raw YAML definitions.
 
 The required definitions for all the components are located in the current repository. To begin the syncing process, simply apply the `root.yaml` Application. Alternatively, the `root` Application can also be defined manually via the ArgoCD UI.
 
@@ -120,6 +139,7 @@ This should deploy all the resources and their status will be visible in the Arg
   
 ### Test Deployment and Syncing
 
+* Access minio UI over https
 * Automatic sync on repository update
   
 ### Further reading

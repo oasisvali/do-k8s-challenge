@@ -1,0 +1,86 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: minio
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 7.1.0
+
+    helm:
+      values: |
+        serviceAccount:
+          create: true
+
+        clusterDomain: cluster.local
+
+        mode: standalone
+
+        existingSecret: minio-secret
+
+        forceNewKeys: false
+
+        containerPort: 9000
+
+        podSecurityContext:
+          enabled: true
+          fsGroup: 1001
+
+        service:
+          type: ClusterIP
+          port: 9000
+          externalTrafficPolicy: Cluster
+
+        disableWebUI: false
+
+        tls:
+          enabled: false
+
+        ingress:
+          enabled: false
+          certManager: false
+
+        networkPolicy:
+          enabled: true
+          allowExternal: true
+
+        persistence:
+          enabled: true
+          mountPath: /data
+          accessModes:
+            - ReadWriteOnce
+          size: 5Gi
+
+        volumePermissions:
+          enabled: false
+
+        pdb:
+          create: false
+
+        metrics:
+          serviceMonitor:
+            enabled: false
+
+        gateway:
+          enabled: false
+
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: minio
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+    - Validate=true
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
