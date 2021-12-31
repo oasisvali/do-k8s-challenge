@@ -139,8 +139,15 @@ This should deploy all the resources and their status will be visible in the Arg
   
 ### Test Deployment and Syncing
 
-* Access minio UI over https
+* Access minio UI over https - this validates that all 3 apps are functioning correctly
+<pic>
+
 * Automatic sync on repository update
+
+  ```bash
+  
+  # edit minio persistence size
+  ```
   
 ### Further reading
 * Integrate ArgoCD-Notifications for alerting ArgoCD events
