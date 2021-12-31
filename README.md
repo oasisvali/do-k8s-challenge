@@ -91,21 +91,12 @@
   ```bash
   kubectl delete secret argocd-initial-admin-secret -n argocd
   ```
-
-  Install ArgoCD `ApplicationSet` Custom Resource Definition
-
-  ```bash
-  kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/applicationset/v0.3.0/manifests/install.yaml
-  # verify install
-  kubectl get pods -n argocd
-  ```
         
 ### Setting up the Applications in the Git Repository
 
-* [ArgoCD ApplicationSet Monorepo Reference](https://argocd-applicationset.readthedocs.io/en/stable/Use-Cases/#use-case-monorepos)
-* [ArgoCD ApplicationSet Git Generator Reference](https://argocd-applicationset.readthedocs.io/en/stable/Generators-Git/#git-generator-directories)
+* [ArgoCD App-of-Apps Architecture Reference]()
 
-For this demo, we will be deploying multiple ArgoCD `Application` resources via their Helm chart definitions. To define all the Applications under a single git repository, we will define an ArgoCD `ApplicationSet` resource. The ApplicationSet will use the `Git Generator` to discover and create the Applications as well as any standalone Kubernetes manifests in the same Git repository. The following 'Application' resources:
+For this demo, we will be deploying multiple ArgoCD `Application` resources via their Helm chart definitions. To define all the Applications under a single git repository, we will define and deploy a root ArgoCD `Application` resource. The root Application will then automatically create the sub-Applications as well as any standalone Kubernetes manifests in the same Git repository. The following 'Application' resources will be created:
 
 1) [cert-manager](https://cert-manager.io/docs/) Application - referencing helm chart
 2) [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) Application - referencing helm chart
