@@ -96,18 +96,25 @@
 
 * [ArgoCD App-of-Apps Architecture Reference]()
 
-For this demo, we will be deploying multiple ArgoCD `Application` resources via their Helm chart definitions. To define all the Applications under a single git repository, we will define and deploy a root ArgoCD `Application` resource. The root Application will then automatically create the sub-Applications as well as any standalone Kubernetes manifests in the same Git repository. The following 'Application' resources will be created:
+For this demo, we will be deploying multiple ArgoCD `Application` resources via their Helm chart definitions. To define all the Applications under a single git repository, we will define and deploy a root ArgoCD `Application` resource. The root application will then automatically create the sub-applications as well as any standalone Kubernetes manifests in the same Git repository in the **App-of-Apps** pattern. The following ArgoCD `Application` resources will be created:
 
-1) [cert-manager](https://cert-manager.io/docs/) Application - referencing helm chart
-2) [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) Application - referencing helm chart
-3) [minio]() Application - referencing helm chart 
-4) [sealed-secrets] Deployment - via raw YAML manifest
+1) `root` Application - the cluster bootstrapping Application
+1) [cert-manager](https://cert-manager.io/docs/) Application - deploys a helm chart
+2) [ingress-nginx](https://kubernetes.github.io/ingress-nginx/) Application - deploys a helm chart
+3) [minio]() Application - deploys a helm chart
 
-Additionally, we will also create supporting resources like ingress-class, cluster-issuer and namespaces via raw YAML definitions.
+Additionally, we will also create supporting resources like ingress-class, cluster-issuer, namespaces, deployments (e.g. for [sealed-secrets]()) via raw YAML definitions.
 
-The required definitions for all the components are located in the current repository. We will configure ArgoCD via its UI to begin syncing with the current repository's `templates/` path.
+The required definitions for all the components are located in the current repository. To begin the syncing process, simply apply the `root.yaml` Application. Alternatively, the `root` Application can also be defined manually via the ArgoCD UI.
 
-1) 
+```bash
+kubectl apply -n argocd -f root.yaml
+```
+
+This should deploy all the resources and their status will be visible in the ArgoCD UI
+<pic>
+
+**NOTE**: For the `cert-manager` certificates to be issued successfully, the external IP address of the `LoadBalancer` service created by `ingress-nginx` should have a Publicly propagated DNS A Record pointing to any ingress endpoint (such as `minio.oasisvali.com` in this example)
 
 ### 
   
@@ -117,8 +124,6 @@ The required definitions for all the components are located in the current repos
   
 ### Further reading
 * Integrate ArgoCD-Notifications for alerting ArgoCD events
-* Deploying Secrets declaratively using secrets management (e.g. with Bitnami Sealed Secrets)
-
 * Deploy multiple ArgoCD Applications using the [App-of-Apps](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/) pattern
 * Install ArgoCD in High-Availability mode
 * Configure ArgoCD via ArgoCD CLI
