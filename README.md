@@ -124,10 +124,10 @@ This should deploy all the resources and their status will be visible in the Arg
   
 ### Further reading
 * Integrate ArgoCD-Notifications for alerting ArgoCD events
-* Deploy multiple ArgoCD Applications using the [App-of-Apps](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/) pattern
 * Install ArgoCD in High-Availability mode
 * Configure ArgoCD via ArgoCD CLI
 * Deploy Apps to external clusters
 * Use local users/SSO integration rather than `admin` user
 * Configure ArgoCD to listen for Git webhook events rather than polling repository
 * Authenticate private Git repositories using ssh key/https token
+* Use ArgoCD ApplicationSet and ApplicationProj to structure and template multiple Applications
